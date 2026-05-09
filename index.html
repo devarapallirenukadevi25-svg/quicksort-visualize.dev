@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Sort - Premium QuickSort Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="aurora-background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+    
+    <div class="app-container">
+        <!-- Top Nav -->
+        <header class="glass-panel top-nav">
+            <div class="logo">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Aurora Sort</span>
+            </div>
+            <nav>
+                <a href="#visualizer" class="active" data-nav-target="visualizer">Visualizer</a>
+                <a href="#learn" data-nav-target="learn">Learn</a>
+                <a href="#controls" data-nav-target="controls">Settings</a>
+            </nav>
+            <div class="theme-toggle" id="theme-toggle">
+                <i class="fa-solid fa-moon"></i>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Panel -->
+            <aside class="glass-panel left-panel" id="learn">
+                <h2>QuickSort Algorithm</h2>
+                <p class="description">An elegant divide-and-conquer algorithm that selects a pivot element and partitions the array around it, recursively sorting the sub-arrays.</p>
+                
+                <div class="complexity-cards">
+                    <div class="card">
+                        <span class="label">Time (Avg)</span>
+                        <span class="value">O(n log n)</span>
+                    </div>
+                    <div class="card">
+                        <span class="label">Time (Worst)</span>
+                        <span class="value">O(n^2)</span>
+                    </div>
+                    <div class="card">
+                        <span class="label">Space</span>
+                        <span class="value">O(log n)</span>
+                    </div>
+                </div>
+
+                <div class="pseudocode-container glass-card">
+                    <h3>Live Execution</h3>
+                    <pre id="pseudocode">
+<span id="line-1">quickSort(arr, low, high) {</span>
+<span id="line-2">  if (low < high) {</span>
+<span id="line-3">    pi = partition(arr, low, high);</span>
+<span id="line-4">    quickSort(arr, low, pi - 1);</span>
+<span id="line-5">    quickSort(arr, pi + 1, high);</span>
+<span id="line-6">  }</span>
+<span id="line-7">}</span>
+                    </pre>
+                </div>
+            </aside>
+
+            <!-- Center Panel -->
+            <main class="center-panel" id="visualizer">
+                <!-- Floating insights -->
+                <div id="insight-toast" class="insight-toast hidden">
+                    <i class="fa-solid fa-sparkles"></i>
+                    <span id="insight-text">Ready to sort...</span>
+                </div>
+
+                <div class="visualization-area glass-panel">
+                    <div class="bars-container" id="bars-container">
+                        <!-- Bars will be generated here -->
+                    </div>
+                </div>
+                
+                <div class="tree-visualization-area glass-panel" id="recursion-tree">
+                    <div class="section-heading">
+                        <div>
+                            <h3>Recursion Tree</h3>
+                            <p>Watch each partition branch appear as QuickSort divides the array.</p>
+                        </div>
+                        <i class="fa-solid fa-diagram-project"></i>
+                    </div>
+                    <div class="tree-container" id="tree-container">
+                        <div class="tree-empty" id="tree-empty">
+                            <i class="fa-solid fa-seedling"></i>
+                            <span>Start sorting to grow the recursion tree.</span>
+                        </div>
+                        <svg id="tree-svg"></svg>
+                        <div id="tree-nodes"></div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Panel -->
+            <aside class="glass-panel right-panel">
+                <h2>Live Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon lavender"><i class="fa-solid fa-code-compare"></i></div>
+                        <div class="stat-info">
+                            <span class="label">Comparisons</span>
+                            <span class="value" id="stat-comparisons">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon peach"><i class="fa-solid fa-arrows-turn-right"></i></div>
+                        <div class="stat-info">
+                            <span class="label">Swaps</span>
+                            <span class="value" id="stat-swaps">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon mint"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="stat-info">
+                            <span class="label">Recursion Depth</span>
+                            <span class="value" id="stat-depth">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon pink"><i class="fa-solid fa-crosshairs"></i></div>
+                        <div class="stat-info">
+                            <span class="label">Current Pivot</span>
+                            <span class="value" id="stat-pivot">-</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon white"><i class="fa-solid fa-stopwatch"></i></div>
+                        <div class="stat-info">
+                            <span class="label">Elapsed Time</span>
+                            <span class="value" id="stat-time">0.0s</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span>Sorting Progress</span>
+                        <span id="progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Bottom Controls -->
+        <footer class="glass-panel bottom-controls" id="controls">
+            <div class="control-group">
+                <button class="btn btn-secondary" id="btn-generate">
+                    <i class="fa-solid fa-shuffle"></i> New Array
+                </button>
+                <div class="custom-input-wrapper">
+                    <input type="text" id="custom-array-input" placeholder="e.g. 5,2,9,1,5" class="glass-input">
+                    <button class="btn btn-icon" id="btn-load-custom"><i class="fa-solid fa-check"></i></button>
+                </div>
+            </div>
+
+            <div class="control-group playback-controls">
+                <button class="btn btn-icon" id="btn-prev" disabled><i class="fa-solid fa-backward-step"></i></button>
+                <button class="btn btn-primary btn-large" id="btn-start">
+                    <i class="fa-solid fa-play"></i> Start
+                </button>
+                <button class="btn btn-icon" id="btn-pause" disabled><i class="fa-solid fa-pause"></i></button>
+                <button class="btn btn-icon" id="btn-next" disabled><i class="fa-solid fa-forward-step"></i></button>
+                <button class="btn btn-icon" id="btn-reset"><i class="fa-solid fa-rotate-left"></i></button>
+            </div>
+
+            <div class="control-group sliders">
+                <div class="slider-container">
+                    <label for="size-slider"><i class="fa-solid fa-chart-bar"></i> Size</label>
+                    <input type="range" id="size-slider" min="5" max="40" value="15">
+                </div>
+                <div class="slider-container">
+                    <label for="speed-slider"><i class="fa-solid fa-gauge-high"></i> Speed</label>
+                    <input type="range" id="speed-slider" min="1" max="100" value="50">
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Audio Context (Generated via JS) -->
+    <script src="script.js"></script>
+</body>
+</html>
